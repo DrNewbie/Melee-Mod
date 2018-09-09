@@ -1,5 +1,5 @@
 <table name="Melee2WEP">
-	<AssetUpdates id="23493" version="2" name="asset_updates" folder_name="Melee2WEP" provider="modworkshop"/>
+	<AssetUpdates id="23493" version="3" name="asset_updates" folder_name="Melee2WEP" provider="modworkshop"/>
 	<Localization directory="Loc" default="english.txt"/>
 	<Hooks directory="Hooks">
 		<hook file="Menu_Function.lua" source_file="lib/managers/menumanager"/>
@@ -7,6 +7,7 @@
 		<hook file="menucomponentmanager.lua" source_file="lib/managers/menu/menucomponentmanager"/>
 		<hook file="tweakdata.lua" source_file="lib/tweak_data/tweakdata"/>
 		<hook file="blackmarketgui.lua" source_file="lib/managers/menu/blackmarketgui"/>
+		<hook file="fpcameraplayerbase.lua" source_file="lib/units/cameras/fpcameraplayerbase"/>
 	</Hooks>
 	<WeaponMod id="wpn_fps_empty_melee_sight" name_id="bm_wpn_fps_empty_melee_sight" based_on="wpn_fps_pis_p226_body_standard" "units/payday2/weapons/wpn_upg_dummy/wpn_upg_dummy" type="sight" drop="false" is_a_unlockable="false">
 		<pcs/>

@@ -65,6 +65,7 @@ Hooks:Add("MenuManagerPopulateCustomMenus", "Melee2WEPOptions", function( menu_m
 			_file:write('		<hook file="menucomponentmanager.lua" source_file="lib/managers/menu/menucomponentmanager"/>\n')
 			_file:write('		<hook file="tweakdata.lua" source_file="lib/tweak_data/tweakdata"/>\n')
 			_file:write('		<hook file="blackmarketgui.lua" source_file="lib/managers/menu/blackmarketgui"/>\n')
+			_file:write('		<hook file="fpcameraplayerbase.lua" source_file="lib/units/cameras/fpcameraplayerbase"/>\n')
 			_file:write('	</Hooks>\n')
 			local _, _, _, _, melee_list, _, _, _, _, _ = tweak_data.statistics:statistics_table()
 			local new_named_loc = {

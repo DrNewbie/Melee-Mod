@@ -52,6 +52,6 @@ Hooks:PostHook(BlackMarketGui, "show_stats", "clonefakewep_BlackMarketGui_show_s
 				self._slot_data.name_localized = ""..self._slot_data.name_localized..""
 				self:update_info_text()
 			end
-		end		
+		end
 	end
 end)

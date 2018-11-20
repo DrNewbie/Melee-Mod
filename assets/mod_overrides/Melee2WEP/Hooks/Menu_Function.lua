@@ -1,7 +1,8 @@
 _G.Melee2WEP = _G.Melee2WEP or {}
 Melee2WEP.ModPath = ModPath
 Melee2WEP.Mods = Melee2WEP.Mods or {Nope = "Nope"}
-Melee2WEP.Version = 2
+Melee2WEP.ObjectList = Melee2WEP.ObjectList or {true}
+Melee2WEP.Version = 5
 
 function Melee2WEP:Load()
 	local save_files = io.open(self.ModPath.."/Mods.json", "r")
@@ -11,6 +12,14 @@ function Melee2WEP:Load()
 		Melee2WEP.Mods.Nope = nil
 	else
 		self.Mods = self.Mods or {Nope = "Nope"}
+		self:Save()
+	end
+	save_files = io.open(self.ModPath.."/unit2object.json", "r")
+	if save_files then
+		self.ObjectList = json.decode(save_files:read("*all"))
+		save_files:close()
+	else
+		self.ObjectList = self.ObjectList or {true}
 		self:Save()
 	end
 end
@@ -131,6 +140,44 @@ Hooks:Add("MenuManagerPopulateCustomMenus", "Melee2WEPOptions", function( menu_m
 				button_list = {{ text = "[OK]", is_cancel_button = true }},
 				id = tostring(math.random(0,0xFFFFFFFF))
 			}
+			local _unit2object = io.open(Melee2WEP.ModPath..'/unit2object.json', "w")
+			if _unit2object and tweak_data.blackmarket.melee_weapons then
+				local dates_insert = {true}
+				local melee_tweak = tweak_data.blackmarket.melee_weapons
+				local ids_unit = Idstring("unit")
+				local ids_object = Idstring("object")
+				for melee_id, melee_data in pairs(melee_tweak) do
+					if melee_data.unit then
+						local ids_melee_unit = Idstring(tostring(melee_data.unit))
+						if melee_data.unit and DB:has(ids_unit, ids_melee_unit) then
+							local db_unit_node = DB:load_node(ids_unit, ids_melee_unit)
+							if db_unit_node then
+								for child in db_unit_node:children() do
+									if child:name() == "object" then
+										local ids_melee_object = Idstring(tostring(child:parameter("file")))
+										if DB:has(ids_object, ids_melee_object) then
+											local db_oject_node = DB:load_node(ids_object, ids_melee_object)
+											if db_oject_node then
+												for child_o in db_oject_node:children() do
+													if child_o:name() == "graphics" then
+														for child_o_o in child_o:children() do
+															if child_o_o:name() == "object" then
+																dates_insert[melee_id] = tostring(child_o_o:parameter("name"))
+															end
+														end
+													end
+												end
+											end
+										end
+									end
+								end
+							end
+						end
+					end
+				end				
+				_unit2object:write(json.encode(dates_insert))
+				_unit2object:close()
+			end
 			managers.system_menu:show(_dialog_data)
 		end
 	end

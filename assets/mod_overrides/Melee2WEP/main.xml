@@ -1,5 +1,5 @@
 <table name="Melee2WEP">
-	<AssetUpdates id="23493" version="3" name="asset_updates" folder_name="Melee2WEP" provider="modworkshop"/>
+	<AssetUpdates id="23493" version="5" name="asset_updates" folder_name="Melee2WEP" provider="modworkshop"/>
 	<Localization directory="Loc" default="english.txt"/>
 	<Hooks directory="Hooks">
 		<hook file="Menu_Function.lua" source_file="lib/managers/menumanager"/>
@@ -886,6 +886,35 @@
 		<stance/>
 	</Weapon>
 	<Weapon>
+		<weapon id="clonefakewep_fear" based_on="new_m4" name_id="bm_melee_fear" DAMAGE="0" CLIP_AMMO_MAX="0" NR_CLIPS_MAX="0" AMMO_MAX="0"ammo_pickup="0" texture_bundle_folder="ssm">
+			<stats zoom="0" total_ammo_mod="0" damage="0" alert_size="0" spread="0" spread_moving="0" recoil="0" value="0" extra_ammo="0" reload="0" suppression="0" oncealment="0"/>
+			<sounds fire="ak12_fire_single" fire_single="ak12_fire_single" use_fix="true"/>
+			<animations reload_name_id="flint"/>
+			<categories>
+				<value_node value="clonefakewep"/>
+				<value_node value="pistol"/>
+			</categories>
+		</weapon>
+		<factory id="wpn_fps_clonefakewep_fear" unit="units/pd2_dlc_ssm/weapons/wpn_fps_mel_fear/wpn_fps_mel_fear">
+			<animations fire="recoil" reload="reload" reload_not_empty="reload_not_empty" fire_steelsight="recoil"/>
+			<optional_types>
+				<value_node value="sight"/>
+				<value_node value="gadget"/>
+			</optional_types>
+			<adds/>
+			<override/>
+			<default_blueprint>
+				<value_node value="wpn_fps_empty_melee_sight"/>
+				<value_node value="wpn_fps_empty_melee_body_standard"/>
+			</default_blueprint>
+			<uses_parts>
+				<value_node value="wpn_fps_empty_melee_sight"/>
+				<value_node value="wpn_fps_empty_melee_body_standard"/>
+			</uses_parts>
+		</factory>
+		<stance/>
+	</Weapon>
+	<Weapon>
 		<weapon id="clonefakewep_fight" based_on="new_m4" name_id="bm_melee_fight" DAMAGE="0" CLIP_AMMO_MAX="0" NR_CLIPS_MAX="0" AMMO_MAX="0"ammo_pickup="0" texture_bundle_folder="turtles">
 			<stats zoom="0" total_ammo_mod="0" damage="0" alert_size="0" spread="0" spread_moving="0" recoil="0" value="0" extra_ammo="0" reload="0" suppression="0" oncealment="0"/>
 			<sounds fire="ak12_fire_single" fire_single="ak12_fire_single" use_fix="true"/>
@@ -1186,6 +1215,35 @@
 			</categories>
 		</weapon>
 		<factory id="wpn_fps_clonefakewep_happy" unit="units/pd2_dlc_joy/weapons/wpn_fps_mel_happy/wpn_fps_mel_happy">
+			<animations fire="recoil" reload="reload" reload_not_empty="reload_not_empty" fire_steelsight="recoil"/>
+			<optional_types>
+				<value_node value="sight"/>
+				<value_node value="gadget"/>
+			</optional_types>
+			<adds/>
+			<override/>
+			<default_blueprint>
+				<value_node value="wpn_fps_empty_melee_sight"/>
+				<value_node value="wpn_fps_empty_melee_body_standard"/>
+			</default_blueprint>
+			<uses_parts>
+				<value_node value="wpn_fps_empty_melee_sight"/>
+				<value_node value="wpn_fps_empty_melee_body_standard"/>
+			</uses_parts>
+		</factory>
+		<stance/>
+	</Weapon>
+	<Weapon>
+		<weapon id="clonefakewep_hauteur" based_on="new_m4" name_id="bm_melee_hauteur" DAMAGE="0" CLIP_AMMO_MAX="0" NR_CLIPS_MAX="0" AMMO_MAX="0"ammo_pickup="0" texture_bundle_folder="ktm">
+			<stats zoom="0" total_ammo_mod="0" damage="0" alert_size="0" spread="0" spread_moving="0" recoil="0" value="0" extra_ammo="0" reload="0" suppression="0" oncealment="0"/>
+			<sounds fire="ak12_fire_single" fire_single="ak12_fire_single" use_fix="true"/>
+			<animations reload_name_id="flint"/>
+			<categories>
+				<value_node value="clonefakewep"/>
+				<value_node value="pistol"/>
+			</categories>
+		</weapon>
+		<factory id="wpn_fps_clonefakewep_hauteur" unit="units/pd2_dlc_ktm/weapons/wpn_fps_mel_hauteur/wpn_fps_mel_hauteur">
 			<animations fire="recoil" reload="reload" reload_not_empty="reload_not_empty" fire_steelsight="recoil"/>
 			<optional_types>
 				<value_node value="sight"/>

@@ -70,7 +70,12 @@ Hooks:Add("MenuManagerPopulateCustomMenus", "Melee2WEPOptions", function( menu_m
 		local _file = io.open(Melee2WEP.ModPath..'/main.xml', "w")
 		if _file then
 			_file:write('<table name=\"Melee2WEP\">\n')
-			_file:write('	<AssetUpdates id="23493" version="'..Melee2WEP.Version..'" name="asset_updates" folder_name="Melee2WEP" provider="modworkshop"/>\n')
+			_file:write('	<AssetUpdates id="Melee Mod" version="'..Melee2WEP.Version..'">\n')
+ 			_file:write('		<custom_provider \n')
+			_file:write('			version_api_url="https://drnewbie.github.io/Melee-Mod/UpdateProvider/Melee2WEP.txt" \n')
+			_file:write('			download_url="https://drnewbie.github.io/Melee-Mod/UpdateProvider/Melee2WEP.zip"\n')
+			_file:write('	/>\n')
+			_file:write('	</AssetUpdates>\n')
 			_file:write('	<Localization directory="Loc" default="english.txt"/>\n')
 			_file:write('	<Hooks directory="Hooks">\n')
 			_file:write('		<hook file="Menu_Function.lua" source_file="lib/managers/menumanager"/>\n')

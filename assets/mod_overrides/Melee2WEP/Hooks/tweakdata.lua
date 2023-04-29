@@ -1,1 +1,0 @@
-table.insert(tweak_data.gui.buy_weapon_categories.primaries, {"clonefakewep"})

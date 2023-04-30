@@ -2,7 +2,7 @@ _G.Melee2WEP = _G.Melee2WEP or {}
 Melee2WEP.ModPath = ModPath
 Melee2WEP.Mods = Melee2WEP.Mods or {true}
 Melee2WEP.ObjectList = Melee2WEP.ObjectList or {true}
-Melee2WEP.Version = 7
+Melee2WEP.Version = 7.1
 
 local function __Save()
 	local save_files = io.open(Melee2WEP.ModPath.."/Mods.json", "w+")
@@ -106,7 +106,7 @@ function Melee2WEP:ApplyLinkToWeapon(data)
 	local align_obj = nil
 	if self.ObjectList[melee_id] then
 		local align_obj_name = Idstring(self.ObjectList[melee_id])
-		align_obj = data.melee:get_object(align_obj_name)
+		align_obj = melee_unit:get_object(align_obj_name)
 	end
 	if not align_obj then
 		align_obj = melee_unit:orientation_object()

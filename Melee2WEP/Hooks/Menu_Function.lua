@@ -2,7 +2,7 @@ _G.Melee2WEP = _G.Melee2WEP or {}
 Melee2WEP.ModPath = ModPath
 Melee2WEP.Mods = Melee2WEP.Mods or {true}
 Melee2WEP.ObjectList = Melee2WEP.ObjectList or {true}
-Melee2WEP.Version = 6.2
+Melee2WEP.Version = 7
 
 local function __Save()
 	local save_files = io.open(Melee2WEP.ModPath.."/Mods.json", "w+")
@@ -116,12 +116,20 @@ function Melee2WEP:ApplyLinkToWeapon(data)
 			if d ~= "wpn_fps_empty_melee_sight" and d ~= "wpn_fps_empty_melee_body_standard" then
 				if tweak_data.weapon.factory.parts[d] and tweak_data.weapon.factory.parts[d].unit ~= "units/payday2/weapons/wpn_upg_dummy/wpn_upg_dummy" then
 					local fac_unit_name = tweak_data.weapon.factory.parts[d] and tweak_data.weapon.factory.parts[d].unit
+					local pos_rot_func = tweak_data.weapon.factory.parts[d] and tweak_data.weapon.factory.parts[d].__melee_mod_pos_rot_func
 					if fac_unit_name and DB:has(Idstring("unit"), Idstring(fac_unit_name)) then
 						managers.dyn_resource:load(Idstring("unit"), Idstring(fac_unit_name), managers.dyn_resource.DYN_RESOURCES_PACKAGE, function()
 							local p_unit = World:spawn_unit(Idstring(fac_unit_name), align_obj:position(), align_obj:rotation())
 							if p_unit and alive(p_unit) then
 								self.p_units[p_unit:key()] = p_unit
 								melee_unit:link(align_obj:name(), p_unit, p_unit:orientation_object():name())
+								if type(pos_rot_func) == "function" then
+									pcall(pos_rot_func, {
+										melee_unit = melee_unit,
+										melee_id = melee_id,
+										melee_mod_unit = p_unit
+									})
+								end
 							end
 						end)
 					end

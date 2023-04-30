@@ -1,5 +1,5 @@
 <table name="Melee2WEP">
-	<AssetUpdates id="Melee Mod" version="6.2">
+	<AssetUpdates id="Melee Mod" version="7">
 		<custom_provider 
 			version_api_url="https://drnewbie.github.io/Melee-Mod/UpdateProvider/Melee2WEP.txt" 
 			download_url="https://drnewbie.github.io/Melee-Mod/UpdateProvider/Melee2WEP.zip"

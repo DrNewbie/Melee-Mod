@@ -2,7 +2,7 @@ _G.Melee2WEP = _G.Melee2WEP or {}
 Melee2WEP.ModPath = ModPath
 Melee2WEP.Mods = Melee2WEP.Mods or {true}
 Melee2WEP.ObjectList = Melee2WEP.ObjectList or {true}
-Melee2WEP.Version = 6.1
+Melee2WEP.Version = 6.2
 
 local function __Save()
 	local save_files = io.open(Melee2WEP.ModPath.."/Mods.json", "w+")
@@ -34,6 +34,11 @@ local function __Load()
 	else
 		Melee2WEP.ObjectList = {true}
 	end
+	pcall(__Save)
+	return
+end
+
+function Melee2WEP:Save()
 	pcall(__Save)
 	return
 end
@@ -149,6 +154,7 @@ Hooks:Add("MenuManagerPopulateCustomMenus", "Melee2WEPOptions", function( menu_m
 			_file:write('		<hook file="menuscenemanager.lua" source_file="lib/managers/menu/menuscenemanager"/>\n')
 			_file:write('		<hook file="menucomponentmanager.lua" source_file="lib/managers/menu/menucomponentmanager"/>\n')
 			_file:write('		<hook file="tweakdata.lua" source_file="lib/tweak_data/tweakdata"/>\n')
+			_file:write('		<hook file="weaponfactorytweakdata.lua" source_file="lib/tweak_data/weaponfactorytweakdata"/>\n')
 			_file:write('		<hook file="blackmarketgui.lua" source_file="lib/managers/menu/blackmarketgui"/>\n')
 			_file:write('		<hook file="fpcameraplayerbase.lua" source_file="lib/units/cameras/fpcameraplayerbase"/>\n')
 			_file:write('	</Hooks>\n')

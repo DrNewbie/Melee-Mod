@@ -1,5 +1,5 @@
 <table name="Melee2WEP">
-	<AssetUpdates id="Melee Mod" version="6.1">
+	<AssetUpdates id="Melee Mod" version="6.2">
 		<custom_provider 
 			version_api_url="https://drnewbie.github.io/Melee-Mod/UpdateProvider/Melee2WEP.txt" 
 			download_url="https://drnewbie.github.io/Melee-Mod/UpdateProvider/Melee2WEP.zip"
@@ -12,6 +12,7 @@
 		<hook file="menuscenemanager.lua" source_file="lib/managers/menu/menuscenemanager"/>
 		<hook file="menucomponentmanager.lua" source_file="lib/managers/menu/menucomponentmanager"/>
 		<hook file="tweakdata.lua" source_file="lib/tweak_data/tweakdata"/>
+		<hook file="weaponfactorytweakdata.lua" source_file="lib/tweak_data/weaponfactorytweakdata"/>
 		<hook file="blackmarketgui.lua" source_file="lib/managers/menu/blackmarketgui"/>
 		<hook file="fpcameraplayerbase.lua" source_file="lib/units/cameras/fpcameraplayerbase"/>
 	</Hooks>

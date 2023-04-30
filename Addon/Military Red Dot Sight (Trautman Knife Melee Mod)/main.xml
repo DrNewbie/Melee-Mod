@@ -1,0 +1,5 @@
+<table name="Military Red Dot Sight (Trautman Knife Melee Mod)">
+	<Hooks directory="Hooks">
+		<hook file="weaponfactorytweakdata.lua" source_file="lib/tweak_data/weaponfactorytweakdata"/>
+	</Hooks>
+</table>

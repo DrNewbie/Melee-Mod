@@ -1,14 +1,15 @@
-<table name="Melee Mod">
-	<AssetUpdates id="Melee Mod" version="6">
-        <custom_provider 
+<table name="Melee2WEP">
+	<AssetUpdates id="Melee Mod" version="6.1">
+		<custom_provider 
 			version_api_url="https://drnewbie.github.io/Melee-Mod/UpdateProvider/Melee2WEP.txt" 
 			download_url="https://drnewbie.github.io/Melee-Mod/UpdateProvider/Melee2WEP.zip"
-		/>
-    </AssetUpdates>
+	/>
+	</AssetUpdates>
 	<Localization directory="Loc" default="english.txt"/>
 	<Hooks directory="Hooks">
 		<hook file="Menu_Function.lua" source_file="lib/managers/menumanager"/>
 		<hook file="blackmarketmanager.lua" source_file="lib/managers/blackmarketmanager"/>
+		<hook file="menuscenemanager.lua" source_file="lib/managers/menu/menuscenemanager"/>
 		<hook file="menucomponentmanager.lua" source_file="lib/managers/menu/menucomponentmanager"/>
 		<hook file="tweakdata.lua" source_file="lib/tweak_data/tweakdata"/>
 		<hook file="blackmarketgui.lua" source_file="lib/managers/menu/blackmarketgui"/>

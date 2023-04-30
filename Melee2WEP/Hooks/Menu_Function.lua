@@ -1,40 +1,41 @@
 _G.Melee2WEP = _G.Melee2WEP or {}
 Melee2WEP.ModPath = ModPath
-Melee2WEP.Mods = Melee2WEP.Mods or {Nope = "Nope"}
+Melee2WEP.Mods = Melee2WEP.Mods or {true}
 Melee2WEP.ObjectList = Melee2WEP.ObjectList or {true}
-Melee2WEP.Version = 6
+Melee2WEP.Version = 6.1
 
-function Melee2WEP:Load()
-	local save_files = io.open(self.ModPath.."/Mods.json", "r")
+local function __Save()
+	local save_files = io.open(Melee2WEP.ModPath.."/Mods.json", "w+")
 	if save_files then
-		self.Mods = json.decode(save_files:read("*all"))
+		save_files:write(json.encode(Melee2WEP.Mods))
 		save_files:close()
-		if type(self.Mods) ~= "table" or table.empty(self.Mods) then
-			self.Mods = {}
-		else
-			self.Mods.Nope = nil
-		end
-	else
-		self.Mods = self.Mods or {Nope = "Nope"}
-		self:Save()
 	end
-	save_files = io.open(self.ModPath.."/unit2object.json", "r")
-	if save_files then
-		self.ObjectList = json.decode(save_files:read("*all"))
-		save_files:close()
-	else
-		self.ObjectList = self.ObjectList or {true}
-		self:Save()
-	end
+	return
 end
 
-function Melee2WEP:Save()
-	local save_files = io.open(self.ModPath.."/Mods.json", "w+")
+local function __Load()
+	local save_files = io.open(Melee2WEP.ModPath.."/Mods.json", "r")
 	if save_files then
-		save_files:write(json.encode(self.Mods))
+		Melee2WEP.Mods = json.decode(save_files:read("*all"))
 		save_files:close()
+		if type(Melee2WEP.Mods) ~= "table" or table.empty(Melee2WEP.Mods) then
+			Melee2WEP.Mods = {true}
+		end
+	else
+		Melee2WEP.Mods = {true}
 	end
-	self:Load()
+	save_files = io.open(Melee2WEP.ModPath.."/unit2object.json", "r")
+	if save_files then
+		Melee2WEP.ObjectList = json.decode(save_files:read("*all"))
+		save_files:close()
+		if type(Melee2WEP.ObjectList) ~= "table" or table.empty(Melee2WEP.ObjectList) then
+			Melee2WEP.ObjectList = {true}
+		end
+	else
+		Melee2WEP.ObjectList = {true}
+	end
+	pcall(__Save)
+	return
 end
 
 function Melee2WEP:IsMeleeApplyInGame(melee_entry)
@@ -61,6 +62,71 @@ function Melee2WEP:IsMeleeApplyInGame(melee_entry)
 	return true
 end
 
+Melee2WEP.p_units = Melee2WEP.p_units or {}
+
+function Melee2WEP:RemoveAllSpawned()
+	for __k, __attach in pairs(self.p_units) do
+		if alive(__attach) then
+			__attach:unlink()
+			__attach:set_slot(0)
+		end
+		if alive(__attach) then
+			World:delete_unit(__attach)
+		end
+		self.p_units[__k] = nil
+	end
+	return
+end
+
+function Melee2WEP:ApplyLinkToWeapon(data)
+	if type(data) ~= "table" then
+		return
+	end
+	if not data.melee_unit or not alive(data.melee_unit) or not data.melee_id then
+		return
+	end
+	local melee_unit = data.melee_unit
+	local melee_id = data.melee_id
+	if not self.Mods or not self.Mods[melee_id] or not Melee2WEP.Mods[melee_id].blueprint then
+		return
+	end
+	--[[
+		Clean old spanwed
+	]]
+	self:RemoveAllSpawned()
+	--[[
+		OK
+	]]
+	local __blueprint = Melee2WEP.Mods[melee_id].blueprint
+	local align_obj = nil
+	if self.ObjectList[melee_id] then
+		local align_obj_name = Idstring(self.ObjectList[melee_id])
+		align_obj = data.melee:get_object(align_obj_name)
+	end
+	if not align_obj then
+		align_obj = melee_unit:orientation_object()
+	end
+	if align_obj then
+		for _, d in pairs(__blueprint) do
+			if d ~= "wpn_fps_empty_melee_sight" and d ~= "wpn_fps_empty_melee_body_standard" then
+				if tweak_data.weapon.factory.parts[d] and tweak_data.weapon.factory.parts[d].unit ~= "units/payday2/weapons/wpn_upg_dummy/wpn_upg_dummy" then
+					local fac_unit_name = tweak_data.weapon.factory.parts[d] and tweak_data.weapon.factory.parts[d].unit
+					if fac_unit_name and DB:has(Idstring("unit"), Idstring(fac_unit_name)) then
+						managers.dyn_resource:load(Idstring("unit"), Idstring(fac_unit_name), managers.dyn_resource.DYN_RESOURCES_PACKAGE, function()
+							local p_unit = World:spawn_unit(Idstring(fac_unit_name), align_obj:position(), align_obj:rotation())
+							if p_unit and alive(p_unit) then
+								self.p_units[p_unit:key()] = p_unit
+								melee_unit:link(align_obj:name(), p_unit, p_unit:orientation_object():name())
+							end
+						end)
+					end
+				end
+			end
+		end
+	end
+	return
+end
+
 Hooks:Add("MenuManagerSetupCustomMenus", "Melee2WEPOptions", function()
 	MenuHelper:NewMenu("Melee2WEP_menu")
 end)
@@ -80,6 +146,7 @@ Hooks:Add("MenuManagerPopulateCustomMenus", "Melee2WEPOptions", function( menu_m
 			_file:write('	<Hooks directory="Hooks">\n')
 			_file:write('		<hook file="Menu_Function.lua" source_file="lib/managers/menumanager"/>\n')
 			_file:write('		<hook file="blackmarketmanager.lua" source_file="lib/managers/blackmarketmanager"/>\n')
+			_file:write('		<hook file="menuscenemanager.lua" source_file="lib/managers/menu/menuscenemanager"/>\n')
 			_file:write('		<hook file="menucomponentmanager.lua" source_file="lib/managers/menu/menucomponentmanager"/>\n')
 			_file:write('		<hook file="tweakdata.lua" source_file="lib/tweak_data/tweakdata"/>\n')
 			_file:write('		<hook file="blackmarketgui.lua" source_file="lib/managers/menu/blackmarketgui"/>\n')
@@ -204,4 +271,4 @@ Hooks:Add("MenuManagerBuildCustomMenus", "Melee2WEPOptions", function(menu_manag
 	MenuHelper:AddMenuItem(nodes["blt_options"], "Melee2WEP_menu", "Melee2WEP_menu_title", "Melee2WEP_menu_desc")
 end)
 
-Melee2WEP:Load()
+pcall(__Load)
